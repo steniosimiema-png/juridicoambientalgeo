@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stênio Calixto Simiema | Inteligência Jurídica Geoespacial</title>
+<meta name="description" content="Direito Ambiental, Urbanístico e Imobiliário integrado a geotecnologias: REURB, perícias com drones e blindagem territorial.">
+<style>
+  :root{
+    --bg:#0B0F19;
+    --bg-alt:#0E1422;
+    --cyan:#00E5FF;
+    --green:#00E676;
+    --glass:rgba(255,255,255,0.05);
+    --glass-border:rgba(0,229,255,0.18);
+    --text:#E7F6FF;
+    --muted:#93A4BD;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+
+  .aurora-layer{
+    position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+    background:
+      radial-gradient(ellipse 120% 60% at 10% -10%, rgba(0,229,255,0.16), transparent 60%),
+      radial-gradient(ellipse 100% 50% at 90% 10%, rgba(0,230,118,0.12), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 50% 110%, rgba(0,229,255,0.10), transparent 60%);
+  }
+  .aurora-layer::before, .aurora-layer::after{
+    content:''; position:absolute; width:140%; height:140%;
+    background:conic-gradient(from 0deg, transparent, rgba(0,229,255,0.08), transparent 30%, rgba(0,230,118,0.07), transparent 60%);
+    animation:auroraSpin 40s linear infinite;
+    top:-20%; left:-20%;
+  }
+  .aurora-layer::after{
+    animation-duration:60s; animation-direction:reverse; opacity:0.6;
+  }
+  @keyframes auroraSpin{ to{ transform:rotate(360deg);} }
+
+  .grid-overlay{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.035) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(ellipse 80% 80% at 50% 30%, black 30%, transparent 75%);
+  }
+
+  .glass{
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border-radius:20px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.35);
+  }
+
+  header{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px clamp(16px,5vw,56px);
+    background:rgba(11,15,25,0.55);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(0,229,255,0.12);
+  }
+  .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text);}
+  .brand svg{width:46px; height:46px; flex-shrink:0;}
+  .brand-text{display:flex; flex-direction:column; line-height:1.15;}
+  .brand-text strong{font-size:15px; letter-spacing:0.5px; color:var(--text);}
+  .brand-text span{font-size:11px; letter-spacing:1.5px; color:var(--cyan); text-transform:uppercase;}
+
+  nav.links{display:flex; align-items:center; gap:10px;}
+  .nav-btn{
+    display:flex; align-items:center; gap:8px;
+    padding:9px 16px; border-radius:999px;
+    font-size:13px; font-weight:600; text-decoration:none;
+    border:1px solid var(--glass-border);
+    color:var(--text); background:rgba(255,255,255,0.03);
+    transition:all .25s ease;
+    white-space:nowrap;
+  }
+  .nav-btn:hover{ transform:translateY(-2px); border-color:var(--cyan); box-shadow:0 0 18px rgba(0,229,255,0.35); }
+  .nav-btn.highlight{
+    background:linear-gradient(135deg, rgba(0,229,255,0.18), rgba(0,230,118,0.16));
+    border-color:var(--cyan); color:#fff;
+  }
+  .nav-btn svg{width:16px; height:16px;}
+  .menu-toggle{display:none;}
+
+  .hero{
+    position:relative; z-index:1;
+    min-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:90px 20px 60px;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:8px 18px; border-radius:999px; font-size:12px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--cyan); margin-bottom:28px;
+  }
+  .eyebrow .dot{width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 10px var(--green); animation:pulse 1.8s infinite;}
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+  h1.headline{
+    font-size:clamp(2.1rem, 5.6vw, 4.4rem);
+    font-weight:800; letter-spacing:-1px; max-width:980px;
+    background:linear-gradient(100deg, #fff 25%, var(--cyan) 55%, var(--green) 80%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow:0 0 60px rgba(0,229,255,0.25);
+  }
+  .sub-headline{
+    margin-top:24px; max-width:680px; font-size:clamp(1rem,2vw,1.18rem); color:var(--muted);
+  }
+  .hero-ctas{display:flex; flex-wrap:wrap; gap:16px; justify-content:center; margin-top:40px;}
+  .btn{
+    padding:15px 30px; border-radius:14px; font-weight:700; font-size:15px;
+    text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+    transition:all .3s ease; cursor:pointer; border:none;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--cyan), var(--green));
+    color:#04141a; box-shadow:0 0 30px rgba(0,229,255,0.35);
+  }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 0 46px rgba(0,229,255,0.55); }
+  .btn-ghost{
+    border:1px solid var(--glass-border); color:var(--text); background:rgba(255,255,255,0.03);
+  }
+  .btn-ghost:hover{ border-color:var(--green); box-shadow:0 0 22px rgba(0,230,118,0.3); }
+
+  .hero-stats{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-top:64px; max-width:920px;
+  }
+  .stat{ padding:18px 26px; min-width:170px; text-align:left; }
+  .stat strong{ display:block; font-size:1.6rem; color:var(--cyan); }
+  .stat span{ font-size:12.5px; color:var(--muted); letter-spacing:0.4px; }
+
+  section{ position:relative; z-index:1; padding:90px 20px; }
+  .section-head{ max-width:760px; margin:0 auto 56px; text-align:center; }
+  .section-head .tag{ color:var(--green); letter-spacing:3px; font-size:12px; text-transform:uppercase; font-weight:700; }
+  .section-head h2{ font-size:clamp(1.7rem,3.6vw,2.6rem); margin-top:12px; font-weight:800; letter-spacing:-0.5px; }
+  .section-head p{ color:var(--muted); margin-top:14px; font-size:1rem; }
+  .container{ max-width:1180px; margin:0 auto; }
+
+  .areas-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:22px; }
+  .area-card{ padding:30px 26px; transition:all .35s ease; }
+  .area-card:hover{ transform:translateY(-6px); border-color:var(--cyan); box-shadow:0 16px 50px rgba(0,229,255,0.18); }
+  .area-icon{
+    width:54px; height:54px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, rgba(0,229,255,0.18), rgba(0,230,118,0.12));
+    margin-bottom:18px;
+  }
+  .area-icon svg{ width:28px; height:28px; stroke:var(--cyan); }
+  .area-card h3{ font-size:1.12rem; margin-bottom:10px; font-weight:700; }
+  .area-card p{ font-size:.92rem; color:var(--muted); }
+
+  .filter-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:40px; }
+  .chip{
+    padding:8px 18px; border-radius:999px; font-size:12.5px; font-weight:600;
+    border:1px solid var(--glass-border); color:var(--muted); cursor:pointer; transition:all .25s ease;
+    background:rgba(255,255,255,0.02);
+  }
+  .chip.active, .chip:hover{ color:#04141a; background:linear-gradient(135deg,var(--cyan),var(--green)); border-color:transparent; }
+
+  .articles-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); gap:24px; }
+  .article-card{ overflow:hidden; display:flex; flex-direction:column; transition:all .35s ease; }
+  .article-card:hover{ transform:translateY(-8px); border-color:var(--green); box-shadow:0 18px 56px rgba(0,230,118,0.16); }
+  .article-cover{
+    height:150px; position:relative; display:flex; align-items:flex-end; padding:16px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(0,229,255,0.35), transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(0,230,118,0.28), transparent 55%),
+      linear-gradient(160deg, #101a2c, #0b121e);
+    border-bottom:1px solid var(--glass-border);
+  }
+  .article-cover svg{ position:absolute; opacity:.18; right:14px; top:14px; width:64px; height:64px; }
+  .badge{
+    font-size:10.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+    color:#04141a; background:linear-gradient(135deg,var(--cyan),var(--green));
+    padding:6px 12px; border-radius:999px;
+  }
+  .article-body{ padding:22px 24px 26px; display:flex; flex-direction:column; gap:12px; flex:1; }
+  .article-meta{ display:flex; gap:14px; font-size:11.5px; color:var(--muted); letter-spacing:.4px; }
+  .article-body h3{ font-size:1.08rem; font-weight:700; line-height:1.35; }
+  .article-body p{ font-size:.9rem; color:var(--muted); flex:1; }
+  .read-more{ font-size:.85rem; font-weight:700; color:var(--cyan); text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+  .read-more svg{ width:14px; height:14px; transition:transform .25s ease; }
+  .article-card:hover .read-more svg{ transform:translateX(4px); }
+  .source-note{ font-size:.74rem; color:#5b6c84; border-top:1px dashed rgba(255,255,255,0.08); padding-top:10px; }
+
+  .cta-wrap{ display:grid; grid-template-columns:1.1fr .9fr; gap:30px; align-items:stretch; }
+  @media(max-width:860px){ .cta-wrap{ grid-template-columns:1fr; } }
+  .cta-card{ padding:42px clamp(24px,4vw,52px); }
+  .cta-card h2{ font-size:clamp(1.5rem,3vw,2.1rem); font-weight:800; margin-bottom:16px; letter-spacing:-0.5px; }
+  .cta-card p{ color:var(--muted); margin-bottom:26px; }
+  .checklist{ list-style:none; display:flex; flex-direction:column; gap:12px; margin-bottom:30px; }
+  .checklist li{ display:flex; gap:12px; align-items:flex-start; font-size:.93rem; color:var(--text); }
+  .checklist svg{ flex-shrink:0; width:20px; height:20px; stroke:var(--green); margin-top:2px; }
+  .contact-card{ padding:36px 30px; display:flex; flex-direction:column; justify-content:center; gap:20px; }
+  .contact-card h3{ font-size:1.2rem; font-weight:800; }
+  .contact-row{ display:flex; align-items:center; gap:14px; }
+  .contact-row .ic{ width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,229,255,0.1); border:1px solid var(--glass-border); flex-shrink:0; }
+  .contact-row .ic svg{ width:20px; height:20px; stroke:var(--cyan); }
+  .contact-row strong{ display:block; font-size:.85rem; }
+  .contact-row span{ font-size:.8rem; color:var(--muted); }
+
+  footer{ position:relative; z-index:1; padding:46px 20px 120px; text-align:center; border-top:1px solid rgba(0,229,255,0.1); }
+  footer p{ color:var(--muted); font-size:.82rem; }
+  footer .footer-brand{ color:var(--cyan); font-weight:700; letter-spacing:1px; }
+  .footer-links{ display:flex; justify-content:center; gap:22px; margin:18px 0; flex-wrap:wrap; }
+  .footer-links a{ color:var(--muted); font-size:.82rem; text-decoration:none; transition:color .2s ease; }
+  .footer-links a:hover{ color:var(--cyan); }
+
+  .wa-float{
+    position:fixed; right:24px; bottom:26px; z-index:80;
+    width:64px; height:64px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(circle at 35% 30%, #1ee893, #04C77B 60%, #029e63);
+    box-shadow:0 0 0 0 rgba(0,230,118,0.5), 0 10px 34px rgba(0,230,118,0.45), inset 0 0 16px rgba(255,255,255,0.25);
+    text-decoration:none; animation:waOrbit 3.4s ease-in-out infinite, waPulse 2.6s infinite;
+  }
+  .wa-float svg{ width:30px; height:30px; fill:#04141a; }
+  .wa-ring{
+    position:absolute; inset:-10px; border-radius:50%;
+    border:1.5px solid rgba(0,230,118,0.45);
+    animation:ringSpin 6s linear infinite;
+  }
+  .wa-ring::after{
+    content:''; position:absolute; width:8px; height:8px; border-radius:50%;
+    background:var(--cyan); box-shadow:0 0 12px var(--cyan);
+    top:-4px; left:50%;
+  }
+  @keyframes waOrbit{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-9px);} }
+  @keyframes waPulse{ 0%{ box-shadow:0 0 0 0 rgba(0,230,118,0.45),0 10px 34px rgba(0,230,118,0.45);} 70%{ box-shadow:0 0 0 18px rgba(0,230,118,0),0 10px 34px rgba(0,230,118,0.45);} 100%{ box-shadow:0 0 0 0 rgba(0,230,118,0),0 10px 34px rgba(0,230,118,0.45);} }
+  @keyframes ringSpin{ to{ transform:rotate(360deg);} }
+  .wa-tooltip{
+    position:absolute; right:76px; top:50%; transform:translateY(-50%);
+    background:rgba(11,15,25,0.9); border:1px solid var(--glass-border); color:var(--text);
+    padding:8px 14px; border-radius:10px; font-size:12.5px; white-space:nowrap;
+    opacity:0; pointer-events:none; transition:opacity .25s ease;
+  }
+  .wa-float:hover .wa-tooltip{ opacity:1; }
+
+  .reveal{ opacity:0; transform:translateY(28px); transition:all .7s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media(max-width:760px){
+    nav.links{ position:fixed; top:70px; right:16px; left:16px; flex-direction:column;
+      background:rgba(11,15,25,0.92); border:1px solid var(--glass-border); border-radius:16px;
+      padding:16px; backdrop-filter:blur(16px); display:none; }
+    nav.links.open{ display:flex; }
+    nav.links .nav-btn{ width:100%; justify-content:center; }
+    .menu-toggle{
+      display:flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:12px;
+      border:1px solid var(--glass-border); background:rgba(255,255,255,0.04); cursor:pointer;
+    }
+    .menu-toggle svg{ width:20px; height:20px; stroke:var(--cyan); }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora-layer"></div>
+<div class="grid-overlay"></div>
+
+<header>
+  <a href="#topo" class="brand">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="Logo Stênio Simiema">
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#00E5FF"/>
+          <stop offset="100%" stop-color="#00E676"/>
+        </linearGradient>
+      </defs>
+      <path d="M76 18a42 42 0 1 0 0 84" fill="none" stroke="url(#ringGrad)" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="76" cy="18" r="3.4" fill="#00E5FF"/>
+      <circle cx="76" cy="102" r="3.4" fill="#00E676"/>
+      <path d="M44 64h32M60 64v22M48 92h24" stroke="#9be8ff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+      <path d="M40 70c8-10 32-10 40 0" stroke="#00E676" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85"/>
+      <circle cx="34" cy="46" r="3" fill="#00E5FF"/>
+      <circle cx="86" cy="46" r="3" fill="#00E5FF"/>
+      <path d="M34 46l10 8M86 46l-10 8" stroke="#00E5FF" stroke-width="2" opacity=".7"/>
+    </svg>
+    <span class="brand-text">
+      <strong>Stênio Calixto Simiema</strong>
+      <span>Inteligência Jurídica Geoespacial</span>
+    </span>
+  </a>
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+
+  <nav class="links" id="navLinks">
+    <a class="nav-btn" href="https://help.instagram.com/697961817256175/?helpref=uf_share" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+      Instagram
+    </a>
+    <a class="nav-btn highlight" href="#telegram" id="telegramBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></svg>
+      Comunidade no Telegram
+    </a>
+  </nav>
+</header>
+
+<section class="hero" id="topo">
+  <span class="eyebrow glass"><span class="dot"></span> Direito Territorial • Geotecnologia • Sensoriamento Remoto</span>
+  <h1 class="headline reveal">Sua propriedade vista do espaço. Sua segurança jurídica, blindada em terra.</h1>
+  <p class="sub-headline reveal">Unimos perícia jurídica de precisão a mapeamento aéreo com drones e análise geoespacial para regularizar, proteger e valorizar imóveis urbanos e rurais — da imagem de satélite à sentença.</p>
+  <div class="hero-ctas reveal">
+    <a href="#contato" class="btn btn-primary">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#04141a" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      Solicitar diagnóstico territorial
+    </a>
+    <a href="#conteudo" class="btn btn-ghost">Explorar conteúdo jurídico</a>
+  </div>
+  <div class="hero-stats reveal">
+    <div class="stat glass"><strong>REURB</strong><span>Lei 13.465/2017 — regularização fundiária urbana e rural</span></div>
+    <div class="stat glass"><strong>VANTs</strong><span>Perícias aéreas conforme RBAC-E nº 94 (ANAC)</span></div>
+    <div class="stat glass"><strong>Geo + Direito</strong><span>Laudos técnicos e mapas com validade probatória</span></div>
+  </div>
+</section>
+
+<section id="areas">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="tag">Áreas de Atuação</span>
+      <h2>Onde o Direito encontra o território</h2>
+      <p>Soluções jurídicas estruturadas a partir de dados geoespaciais validados — sem achismo, sem fake news, com lastro técnico e legal.</p>
+    </div>
+    <div class="areas-grid">
+      <div class="area-card glass reveal">
+        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg></div>
+        <h3>REURB — Regularização Fundiária</h3>
+        <p>Condução de processos de regularização urbana e rural com base na Lei 13.465/2017, da análise documental e geodésica até a expedição da CRF.</p>
+      </div>
+      <div class="area-card glass reveal">
+        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="11" r="2.6"/></svg></div>
+        <h3>Direito Ambiental & Blindagem Territorial</h3>
+        <p>Defesa técnica em autuações ambientais, adequação ao Código Florestal (Lei 12.651/2012), CAR, APP e Reserva Legal, com mapeamento de risco.</p>
+      </div>
+      <div class="area-card glass reveal">
+        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5 19 19M19 5l-2.5 2.5M7.5 16.5 5 19"/></svg></div>
+        <h3>Perícias Técnicas com Drones (VANTs)</h3>
+        <p>Mapeamento aéreo, ortofotos e modelos 3D para laudos periciais, divisas, levantamento volumétrico e provas técnicas em juízo.</p>
+      </div>
+      <div class="area-card glass reveal">
+        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <h3>Direito Imobiliário Estratégico</h3>
+        <p>Due diligence territorial, georreferenciamento de imóveis rurais (Lei 10.267/2001) e estruturação jurídica de loteamentos e empreendimentos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="conteudo">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="tag">Inteligência Jurídica em Pauta</span>
+      <h2>Conteúdo curado: Direito + Geoespacial</h2>
+      <p>Cada publicação passa por checagem dupla de fontes — legislação vigente, normas técnicas e jurisprudência — antes de ir ao ar.</p>
+    </div>
+
+    <div class="filter-row reveal">
+      <span class="chip active">Todos</span>
+      <span class="chip">REURB</span>
+      <span class="chip">Direito Ambiental</span>
+      <span class="chip">Drones &amp; Perícia</span>
+      <span class="chip">Imobiliário Rural</span>
+    </div>
+
+    <div class="articles-grid">
+
+      <article class="article-card glass reveal">
+        <div class="article-cover">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00E5FF" stroke-width="1.5"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg>
+          <span class="badge">REURB</span>
+        </div>
+        <div class="article-body">
+          <div class="article-meta"><span>Regularização Fundiária</span><span>5 min de leitura</span></div>
+          <h3>Lei 13.465/2017: o que muda na regularização de núcleos urbanos informais</h3>
+          <p>Entenda as modalidades REURB-S e REURB-E, os legitimados para requerer o procedimento e o papel da Certidão de Regularização Fundiária (CRF) como título apto ao registro.</p>
+          <span class="source-note">Fonte: Lei Federal 13.465/2017 e Decreto 9.310/2018.</span>
+          <a class="read-more" href="artigo-reurb.html">Ler análise completa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        </div>
+      </article>
+
+      <article class="article-card glass reveal">
+        <div class="article-cover">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="1.5"><path d="M12 2 3 7l9 5 9-5-9-5ZM3 12l9 5 9-5M3 17l9 5 9-5"/></svg>
+          <span class="badge">Direito Ambiental</span>
+        </div>
+        <div class="article-body">
+          <div class="article-meta"><span>Código Florestal</span><span>6 min de leitura</span></div>
+          <h3>CAR, APP e Reserva Legal: como o Código Florestal protege — e expõe — sua propriedade</h3>
+          <p>Um panorama prático da Lei 12.651/2012: cadastro ambiental rural, áreas de preservação permanente e os riscos de autuação para quem ainda não regularizou sua matrícula ambiental.</p>
+          <span class="source-note">Fonte: Lei Federal 12.651/2012 (Código Florestal) e Programa de Regularização Ambiental (PRA).</span>
+          <a class="read-more" href="#">Ler análise completa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        </div>
+      </article>
+
+      <article class="article-card glass reveal">
+        <div class="article-cover">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00E5FF" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+          <span class="badge">Drones &amp; Perícia</span>
+        </div>
+        <div class="article-body">
+          <div class="article-meta"><span>Perícia Técnica</span><span>4 min de leitura</span></div>
+          <h3>Drones como prova técnica: o que diz a regulamentação da ANAC sobre perícias aéreas</h3>
+          <p>Como o RBAC-E nº 94 disciplina o uso de aeronaves não tripuladas e por que ortofotos e modelos digitais de superfície vêm ganhando peso probatório em disputas fundiárias.</p>
+          <span class="source-note">Fonte: ANAC — RBAC-E nº 94; normas complementares ANATEL e DECEA para operação de VANTs.</span>
+          <a class="read-more" href="#">Ler análise completa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        </div>
+      </article>
+
+      <article class="article-card glass reveal">
+        <div class="article-cover">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          <span class="badge">Imobiliário Rural</span>
+        </div>
+        <div class="article-body">
+          <div class="article-meta"><span>Georreferenciamento</span><span>5 min de leitura</span></div>
+          <h3>Lei 10.267/2001: por que seu imóvel rural pode estar irregular sem você saber</h3>
+          <p>O prazo e a obrigatoriedade do georreferenciamento de imóveis rurais junto ao INCRA, e os impactos da ausência de certificação em compras, vendas e partilhas.</p>
+          <span class="source-note">Fonte: Lei Federal 10.267/2001 e normas técnicas para georreferenciamento de imóveis rurais (INCRA).</span>
+          <a class="read-more" href="#">Ler análise completa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        </div>
+      </article>
+
+      <article class="article-card glass reveal">
+        <div class="article-cover">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00E5FF" stroke-width="1.5"><path d="M12 22s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="11" r="2.6"/></svg>
+          <span class="badge">Direito Ambiental</span>
+        </div>
+        <div class="article-body">
+          <div class="article-meta"><span>Licenciamento</span><span>6 min de leitura</span></div>
+          <h3>Licenciamento ambiental na prática: etapas, riscos e como evitar embargos</h3>
+          <p>Da Licença Prévia à Licença de Operação: o passo a passo previsto na Lei 6.938/1981 (Política Nacional do Meio Ambiente) e nas Resoluções do CONAMA, com foco em empreendimentos territoriais.</p>
+          <span class="source-note">Fonte: Lei Federal 6.938/1981 e Resoluções CONAMA sobre licenciamento ambiental.</span>
+          <a class="read-more" href="#">Ler análise completa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        </div>
+      </article>
+
+      <article class="article-card glass reveal">
+        <div class="article-cover">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="1.5"><path d="M3 21h18M5 21V9l7-5 7 5v12"/><path d="M9 9h.01M13 9h.01M9 13h.01M13 13h.01"/></svg>
+          <span class="badge">Imobiliário</span>
+        </div>
+        <div class="article-body">
+          <div class="article-meta"><span>Estatuto da Cidade</span><span>5 min de leitura</span></div>
+          <h3>Estatuto da Cidade e parcelamento do solo: o que loteadores e prefeituras precisam saber</h3>
+          <p>Uma leitura aplicada da Lei 10.257/2001 e da Lei 6.766/1979 sobre diretrizes urbanísticas, função social da propriedade e os riscos jurídicos de loteamentos irregulares.</p>
+          <span class="source-note">Fonte: Lei Federal 10.257/2001 (Estatuto da Cidade) e Lei Federal 6.766/1979 (Parcelamento do Solo Urbano).</span>
+          <a class="read-more" href="#">Ler análise completa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="container cta-wrap">
+    <div class="cta-card glass reveal">
+      <span class="tag" style="display:block;margin-bottom:10px;">Por que trabalhar com inteligência geoespacial</span>
+      <h2>Decisões jurídicas com a precisão de quem enxerga o território do espaço.</h2>
+      <p>Cada caso passa por curadoria técnica e jurídica antes de virar estratégia: cruzamos legislação vigente, dados de sensoriamento remoto e jurisprudência atualizada para reduzir riscos e antecipar passivos.</p>
+      <ul class="checklist">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Diagnóstico territorial com imagens de satélite e drone</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Conferência cruzada de dados ambientais e cartoriais</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Estratégia jurídica fundamentada em legislação vigente</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Acompanhamento contínuo do processo, do laudo à sentença</li>
+      </ul>
+      <a href="#" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#04141a" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Agendar conversa estratégica
+      </a>
+    </div>
+    <div class="contact-card glass reveal">
+      <h3>Canais diretos</h3>
+      <div class="contact-row">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 5a2 2 0 0 1 2-2h2.28a2 2 0 0 1 2 1.72l.5 3.5a2 2 0 0 1-.54 1.74L7.91 11.3a16 16 0 0 0 6.79 6.79l1.34-1.33a2 2 0 0 1 1.74-.54l3.5.5a2 2 0 0 1 1.72 2V21a2 2 0 0 1-2 2h-1C9.61 23 1 14.39 1 4V3"/></svg></span>
+        <div><strong>WhatsApp</strong><span>+55 62 9293-0093</span></div>
+      </div>
+      <div class="contact-row">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg></span>
+        <div><strong>Instagram</strong><span>Bastidores e novidades</span></div>
+      </div>
+      <div class="contact-row">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></svg></span>
+        <div><strong>Telegram</strong><span>Comunidade de atualizações jurídicas</span></div>
+      </div>
+      <div class="contact-row">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+        <div><strong>Atendimento</strong><span>Atendimento jurídico em todo o Brasil</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-brand">STÊNIO CALIXTO SIMIEMA · Inteligência Jurídica Geoespacial</p>
+  <div class="footer-links">
+    <a href="#topo">Início</a>
+    <a href="#areas">Áreas de Atuação</a>
+    <a href="#conteudo">Conteúdo Jurídico</a>
+    <a href="#contato">Contato</a>
+  </div>
+  <p>Conteúdo informativo, curado a partir de legislação vigente e fontes técnicas oficiais — não substitui consulta jurídica individualizada. © <span id="year"></span> Stênio Calixto Simiema. Todos os direitos reservados.</p>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5562992930093" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <span class="wa-ring"></span>
+  <span class="wa-tooltip">Fale agora pelo WhatsApp</span>
+  <svg viewBox="0 0 32 32"><path d="M16.04 3C9.37 3 3.96 8.4 3.96 15.06c0 2.31.64 4.47 1.76 6.32L4 29l7.84-1.66a12.9 12.9 0 0 0 4.2.7c6.67 0 12.08-5.4 12.08-12.06C28.12 8.4 22.71 3 16.04 3zm0 22c-1.96 0-3.78-.55-5.34-1.5l-.38-.23-4.65.99 1-4.53-.25-.39a9.9 9.9 0 0 1-1.5-5.28c0-5.49 4.47-9.96 9.98-9.96 5.5 0 9.98 4.47 9.98 9.96 0 5.5-4.47 9.94-9.84 9.94zm5.5-7.45c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.18-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.65-.94-2.26-.25-.6-.5-.5-.68-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.07 2.9 1.22 3.1c.15.2 2.1 3.2 5.08 4.5.71.3 1.26.49 1.7.62.71.23 1.36.2 1.87.12.57-.08 1.78-.72 2.03-1.42.25-.7.25-1.3.18-1.42-.08-.13-.28-.2-.58-.35z"/></svg>
+</a>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const toggle = document.getElementById('menuToggle');
+  const links = document.getElementById('navLinks');
+  if (toggle) toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

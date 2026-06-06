@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REURB: Como Regularizar Seu Imóvel em 2026 | Stênio Simiema</title>
+<meta name="description" content="Entenda como a Lei 13.465/2017 (REURB) permite regularizar imóveis urbanos informais, quem pode requerer e como a CRF garante o registro em cartório.">
+<style>
+  :root{
+    --bg:#0B0F19; --cyan:#00E5FF; --green:#00E676;
+    --glass:rgba(255,255,255,0.05); --glass-border:rgba(0,229,255,0.18);
+    --text:#E7F6FF; --muted:#93A4BD;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--text); font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,Arial,sans-serif; overflow-x:hidden; line-height:1.7; }
+  .aurora-layer{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+    background:
+      radial-gradient(ellipse 120% 60% at 10% -10%, rgba(0,229,255,0.16), transparent 60%),
+      radial-gradient(ellipse 100% 50% at 90% 10%, rgba(0,230,118,0.12), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 50% 110%, rgba(0,229,255,0.10), transparent 60%); }
+  .aurora-layer::before, .aurora-layer::after{ content:''; position:absolute; width:140%; height:140%;
+    background:conic-gradient(from 0deg, transparent, rgba(0,229,255,0.08), transparent 30%, rgba(0,230,118,0.07), transparent 60%);
+    animation:auroraSpin 40s linear infinite; top:-20%; left:-20%; }
+  .aurora-layer::after{ animation-duration:60s; animation-direction:reverse; opacity:.6; }
+  @keyframes auroraSpin{ to{ transform:rotate(360deg);} }
+  .glass{ background:var(--glass); border:1px solid var(--glass-border); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-radius:20px; box-shadow:0 8px 32px rgba(0,0,0,.35); }
+
+  header{ position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between;
+    padding:14px clamp(16px,5vw,56px); background:rgba(11,15,25,.55); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(0,229,255,.12); }
+  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text); }
+  .brand svg{ width:42px; height:42px; flex-shrink:0; }
+  .brand-text{ display:flex; flex-direction:column; line-height:1.15; }
+  .brand-text strong{ font-size:14px; color:var(--text); }
+  .brand-text span{ font-size:10.5px; letter-spacing:1.5px; color:var(--cyan); text-transform:uppercase; }
+  .nav-btn{ display:flex; align-items:center; gap:8px; padding:9px 16px; border-radius:999px; font-size:13px; font-weight:600;
+    text-decoration:none; border:1px solid var(--glass-border); color:var(--text); background:rgba(255,255,255,.03); transition:all .25s ease; white-space:nowrap; }
+  .nav-btn:hover{ transform:translateY(-2px); border-color:var(--cyan); box-shadow:0 0 18px rgba(0,229,255,.35); }
+  nav.links{ display:flex; gap:10px; }
+
+  .breadcrumb{ position:relative; z-index:1; max-width:760px; margin:34px auto 0; padding:0 20px; font-size:13px; color:var(--muted); }
+  .breadcrumb a{ color:var(--cyan); text-decoration:none; }
+
+  article.post{ position:relative; z-index:1; max-width:760px; margin:0 auto; padding:24px 20px 80px; }
+  .post-tag{ color:var(--green); letter-spacing:3px; font-size:11.5px; text-transform:uppercase; font-weight:700; }
+  h1.post-title{ font-size:clamp(1.8rem,4.4vw,2.6rem); font-weight:800; letter-spacing:-.5px; margin:14px 0 18px;
+    background:linear-gradient(100deg,#fff 25%,var(--cyan) 60%,var(--green) 85%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .post-meta{ display:flex; flex-wrap:wrap; gap:16px; font-size:12.5px; color:var(--muted); margin-bottom:30px; border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:24px; }
+  .post-meta span{ display:flex; align-items:center; gap:6px; }
+
+  .post-body p{ color:var(--text); margin-bottom:18px; font-size:1.02rem; }
+  .post-body p.lead{ font-size:1.12rem; color:var(--muted); }
+  .post-body h2{ font-size:1.35rem; font-weight:800; margin:38px 0 14px; letter-spacing:-.3px; color:var(--text); }
+  .post-body h2 span{ color:var(--cyan); }
+  .post-body ul{ margin:0 0 18px 22px; color:var(--text); }
+  .post-body li{ margin-bottom:8px; }
+  .post-body a{ color:var(--cyan); text-decoration:underline; text-decoration-color:rgba(0,229,255,.35); }
+  .post-body a:hover{ text-decoration-color:var(--cyan); }
+
+  .callout{ padding:22px 24px; margin:28px 0; border-left:3px solid var(--green); }
+  .callout strong{ display:block; margin-bottom:6px; color:var(--green); font-size:13px; letter-spacing:1px; text-transform:uppercase; }
+
+  .cta-box{ padding:32px clamp(22px,4vw,40px); margin-top:44px; text-align:center; }
+  .cta-box h3{ font-size:1.3rem; font-weight:800; margin-bottom:12px; }
+  .cta-box p{ color:var(--muted); margin-bottom:22px; }
+  .btn-primary{ display:inline-flex; align-items:center; gap:10px; padding:15px 30px; border-radius:14px; font-weight:700; font-size:15px;
+    text-decoration:none; background:linear-gradient(135deg,var(--cyan),var(--green)); color:#04141a; box-shadow:0 0 30px rgba(0,229,255,.35); transition:all .3s ease; }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 0 46px rgba(0,229,255,.55); }
+
+  .source-block{ margin-top:34px; padding-top:20px; border-top:1px dashed rgba(255,255,255,.1); font-size:.84rem; color:#5b6c84; }
+  .source-block a{ color:var(--muted); }
+
+  .related{ margin-top:54px; }
+  .related h3{ font-size:1.1rem; font-weight:800; margin-bottom:18px; }
+  .related-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+  .related-card{ padding:18px 20px; text-decoration:none; color:var(--text); display:block; transition:all .3s ease; }
+  .related-card:hover{ transform:translateY(-4px); border-color:var(--cyan); box-shadow:0 12px 36px rgba(0,229,255,.16); }
+  .related-card .tag-mini{ font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--green); font-weight:700; }
+  .related-card h4{ font-size:.94rem; margin-top:8px; line-height:1.4; }
+
+  footer{ position:relative; z-index:1; padding:40px 20px 110px; text-align:center; border-top:1px solid rgba(0,229,255,.1); }
+  footer p{ color:var(--muted); font-size:.8rem; }
+  footer a{ color:var(--cyan); text-decoration:none; }
+
+  .wa-float{ position:fixed; right:24px; bottom:26px; z-index:80; width:64px; height:64px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:radial-gradient(circle at 35% 30%, #1ee893, #04C77B 60%, #029e63);
+    box-shadow:0 0 0 0 rgba(0,230,118,.5),0 10px 34px rgba(0,230,118,.45), inset 0 0 16px rgba(255,255,255,.25);
+    text-decoration:none; animation:waOrbit 3.4s ease-in-out infinite, waPulse 2.6s infinite; }
+  .wa-float svg{ width:30px; height:30px; fill:#04141a; }
+  @keyframes waOrbit{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-9px);} }
+  @keyframes waPulse{ 0%{ box-shadow:0 0 0 0 rgba(0,230,118,.45),0 10px 34px rgba(0,230,118,.45);} 70%{ box-shadow:0 0 0 18px rgba(0,230,118,0),0 10px 34px rgba(0,230,118,.45);} 100%{ box-shadow:0 0 0 0 rgba(0,230,118,0),0 10px 34px rgba(0,230,118,.45);} }
+
+  .reveal{ opacity:0; transform:translateY(24px); transition:all .7s cubic-bezier(.2,.7,.3,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media(max-width:620px){ nav.links{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="aurora-layer"></div>
+
+<header>
+  <a href="index.html" class="brand">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="Logo Stênio Simiema">
+      <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00E5FF"/><stop offset="100%" stop-color="#00E676"/></linearGradient></defs>
+      <path d="M76 18a42 42 0 1 0 0 84" fill="none" stroke="url(#rg)" stroke-width="7" stroke-linecap="round"/>
+      <circle cx="76" cy="18" r="3.4" fill="#00E5FF"/><circle cx="76" cy="102" r="3.4" fill="#00E676"/>
+      <path d="M44 64h32M60 64v22M48 92h24" stroke="#9be8ff" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+      <path d="M40 70c8-10 32-10 40 0" stroke="#00E676" stroke-width="3" fill="none" stroke-linecap="round" opacity=".85"/>
+      <circle cx="34" cy="46" r="3" fill="#00E5FF"/><circle cx="86" cy="46" r="3" fill="#00E5FF"/>
+      <path d="M34 46l10 8M86 46l-10 8" stroke="#00E5FF" stroke-width="2" opacity=".7"/>
+    </svg>
+    <span class="brand-text"><strong>Stênio Calixto Simiema</strong><span>Inteligência Jurídica Geoespacial</span></span>
+  </a>
+  <nav class="links">
+    <a class="nav-btn" href="index.html#conteudo">← Voltar ao blog</a>
+    <a class="nav-btn" href="index.html#contato">Falar com o escritório</a>
+  </nav>
+</header>
+
+<p class="breadcrumb reveal"><a href="index.html">Início</a> · <a href="index.html#conteudo">Conteúdo Jurídico</a> · REURB</p>
+
+<article class="post">
+  <span class="post-tag reveal">REURB · Regularização Fundiária</span>
+  <h1 class="post-title reveal">REURB: como regularizar seu imóvel urbano com a Lei 13.465/2017</h1>
+  <div class="post-meta reveal">
+    <span>📅 Publicado em 06/06/2026</span>
+    <span>⏱️ 7 min de leitura</span>
+    <span>🏷️ REURB, Regularização Fundiária, Direito Imobiliário, Lei 13.465/2017, CRF</span>
+  </div>
+
+  <div class="post-body reveal">
+    <p class="lead">Você sabia que um imóvel sem matrícula regularizada pode travar uma venda, uma herança ou até um financiamento? Para milhares de proprietários urbanos no Brasil, essa é uma realidade silenciosa — e a Lei 13.465/2017 criou justamente o caminho legal para resolvê-la: a REURB, ou Regularização Fundiária Urbana.</p>
+
+    <h2>O que é a <span>REURB</span> e por que ela existe</h2>
+    <p>A Lei Federal 13.465, de 2017, instituiu a REURB como o principal instrumento para regularizar núcleos urbanos informais — aqueles loteamentos, bairros ou conjuntos de imóveis que se consolidaram ao longo do tempo sem o devido registro em cartório ou sem atender integralmente às normas urbanísticas vigentes à época da ocupação. Em vez de tratar cada caso isoladamente na Justiça, a lei criou um procedimento administrativo que pode ser conduzido junto ao poder público municipal, tornando o processo mais rápido e acessível.</p>
+
+    <h2>As duas modalidades: <span>REURB-S</span> e <span>REURB-E</span></h2>
+    <p>A legislação distingue dois grupos de beneficiários:</p>
+    <ul>
+      <li><strong>REURB-S (Social):</strong> voltada a núcleos urbanos ocupados predominantemente por população de baixa renda, com isenção de custas e emolumentos cartorários.</li>
+      <li><strong>REURB-E (Específica):</strong> aplicável aos demais casos, em que os interessados arcam com os custos do procedimento, incluindo levantamentos técnicos e taxas registrais.</li>
+    </ul>
+    <p>Essa distinção é importante porque define não apenas quem paga pelo processo, mas também os documentos e estudos técnicos exigidos em cada caso.</p>
+
+    <h2>Quem pode requerer a regularização</h2>
+    <p>De acordo com a lei, podem iniciar o procedimento de REURB: a União, os Estados, o Distrito Federal e os Municípios; os próprios proprietários, loteadores ou incorporadores; a Defensoria Pública, em nome dos beneficiários; o Ministério Público; associações de moradores regularmente constituídas; e os ocupantes do núcleo urbano informal, individual ou coletivamente. Essa diversidade de legitimados foi pensada justamente para destravar processos que, de outra forma, ficariam parados por falta de iniciativa de uma das partes.</p>
+
+    <div class="callout glass reveal">
+      <strong>Na prática</strong>
+      Imagine um loteamento de 40 anos, com casas construídas, ruas abertas e contas de luz e água em nome dos moradores — mas sem nenhuma matrícula individualizada em cartório. Pela REURB, a associação de moradores pode requerer a regularização coletiva do núcleo, com apoio técnico (inclusive levantamentos topográficos e, cada vez mais, mapeamentos com drones) para gerar a planta do parcelamento e individualizar os lotes.
+    </div>
+
+    <h2>O papel da <span>CRF</span> — Certidão de Regularização Fundiária</h2>
+    <p>Ao final do procedimento, é expedida a Certidão de Regularização Fundiária (CRF), documento que formaliza a regularização e que, uma vez registrado no Cartório de Registro de Imóveis, dá origem às matrículas individualizadas dos lotes. É esse registro que transforma a ocupação consolidada em propriedade plena, com todos os efeitos jurídicos: possibilidade de venda, doação, herança, uso como garantia em financiamentos e proteção contra disputas possessórias.</p>
+
+    <h2>Por que isso importa para você agora</h2>
+    <p>Se você é proprietário, loteador ou representa uma prefeitura, a ausência de regularização não é apenas um detalhe burocrático — ela impacta diretamente o valor do imóvel, a segurança jurídica de quem nele vive ou investe, e a capacidade do município de planejar e tributar corretamente o território. Quanto mais cedo o processo é iniciado, menor tende a ser a complexidade documental e o custo técnico envolvido — especialmente quando se utiliza tecnologia de mapeamento aéreo para acelerar os levantamentos exigidos pela lei.</p>
+
+    <div class="cta-box glass reveal">
+      <h3>Seu imóvel ou loteamento ainda não está regularizado?</h3>
+      <p>Entre em contato e receba uma avaliação inicial sobre o caminho mais rápido para regularizar sua situação dentro da Lei 13.465/2017 — com apoio de mapeamento geoespacial quando necessário.</p>
+      <a class="btn-primary" href="index.html#contato">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#04141a" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Solicitar avaliação do meu caso
+      </a>
+    </div>
+
+    <p class="source-block">Fontes consultadas: <a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13465.htm" target="_blank" rel="noopener">Lei Federal nº 13.465/2017 — Planalto</a> · <a href="https://www.gov.br/cidades/" target="_blank" rel="noopener">Ministério das Cidades</a>. Conteúdo informativo; não substitui consulta jurídica individualizada sobre o seu caso.</p>
+
+    <div class="related reveal">
+      <h3>Continue lendo</h3>
+      <div class="related-grid">
+        <a class="related-card glass" href="index.html#conteudo"><span class="tag-mini">Direito Ambiental</span><h4>CAR, APP e Reserva Legal: o que o Código Florestal exige do seu imóvel</h4></a>
+        <a class="related-card glass" href="index.html#conteudo"><span class="tag-mini">Imobiliário Rural</span><h4>Lei 10.267/2001: por que seu imóvel rural pode estar irregular sem você saber</h4></a>
+        <a class="related-card glass" href="index.html#conteudo"><span class="tag-mini">Drones &amp; Perícia</span><h4>Drones como prova técnica: o que diz a regulamentação da ANAC</h4></a>
+      </div>
+    </div>
+  </div>
+</article>
+
+<footer>
+  <p>STÊNIO CALIXTO SIMIEMA · Inteligência Jurídica Geoespacial — <a href="index.html">voltar ao início</a></p>
+  <p>© <span id="year"></span> Todos os direitos reservados.</p>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5562992930093" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16.04 3C9.37 3 3.96 8.4 3.96 15.06c0 2.31.64 4.47 1.76 6.32L4 29l7.84-1.66a12.9 12.9 0 0 0 4.2.7c6.67 0 12.08-5.4 12.08-12.06C28.12 8.4 22.71 3 16.04 3zm0 22c-1.96 0-3.78-.55-5.34-1.5l-.38-.23-4.65.99 1-4.53-.25-.39a9.9 9.9 0 0 1-1.5-5.28c0-5.49 4.47-9.96 9.98-9.96 5.5 0 9.98 4.47 9.98 9.96 0 5.5-4.47 9.94-9.84 9.94zm5.5-7.45c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.18-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.65-.94-2.26-.25-.6-.5-.5-.68-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.02-1.05 2.5s1.07 2.9 1.22 3.1c.15.2 2.1 3.2 5.08 4.5.71.3 1.26.49 1.7.62.71.23 1.36.2 1.87.12.57-.08 1.78-.72 2.03-1.42.25-.7.25-1.3.18-1.42-.08-.13-.28-.2-.58-.35z"/></svg>
+</a>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }); }, { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
