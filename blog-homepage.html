@@ -55,6 +55,26 @@ a { text-decoration: none; color: inherit; }
 img { max-width: 100%; }
 
 /* ============================================================
+   FIX: Hide WordPress FSE theme header/footer on homepage
+   ============================================================ */
+body.page-id-28 header.wp-block-template-part,
+body.home header.wp-block-template-part,
+body.page-id-28 footer.wp-block-template-part,
+body.home footer.wp-block-template-part { display: none !important; }
+
+/* Force full-width layout */
+body.page-id-28 .wp-block-group.is-layout-flow > .wp-block-html,
+body.home .wp-block-group.is-layout-flow > .wp-block-html,
+body.page-id-28 .wp-block-group.is-layout-flow > .alignfull,
+body.home .wp-block-group.is-layout-flow > .alignfull {
+  max-width: 100% !important; width: 100% !important;
+  padding-left: 0 !important; padding-right: 0 !important;
+  margin-left: 0 !important; margin-right: 0 !important;
+}
+body.page-id-28 .wp-site-blocks, body.home .wp-site-blocks { padding-top: 0 !important; }
+body.page-id-28 main.wp-block-group, body.home main.wp-block-group { padding: 0 !important; margin: 0 !important; }
+
+/* ============================================================
    FIX: Override WordPress Gutenberg is-layout-constrained
    that constrains all direct children to content-size (620px)
    ============================================================ */
