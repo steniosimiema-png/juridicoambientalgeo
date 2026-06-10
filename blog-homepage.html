@@ -456,11 +456,64 @@ body.page-id-28 main.wp-block-group, body.home main.wp-block-group { padding: 0 
   transform: translateY(-2px);
 }
 
-/* Hero stats */
-.hero-stats {
-  display: flex;
-  gap: 2rem;
+/* Hero problems grid */
+.hero-problems {
+  margin-top: 1.75rem;
   animation: fadeInUp 0.7s 0.4s ease both;
+}
+.hero-problems-title {
+  font-family: var(--font-tech);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  opacity: 0.85;
+  margin-bottom: 0.75rem;
+}
+.problems-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+.problem-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-bd);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  backdrop-filter: blur(10px);
+  transition: border-color var(--transition), background var(--transition);
+}
+.problem-card:hover {
+  border-color: rgba(0,229,255,0.35);
+  background: var(--glass-hover);
+}
+.problem-card h4 {
+  font-family: var(--font-tech);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.35rem;
+}
+.problem-card ul {
+  list-style: none;
+  padding: 0; margin: 0;
+}
+.problem-card ul li {
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.problem-card ul li::before {
+  content: '·';
+  color: var(--cyan);
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1;
 }
 .stat-item {
   display: flex;
@@ -1177,7 +1230,7 @@ footer {
   .nav-hamburger { display: flex; }
 
   .hero { padding: 100px 1.25rem 60px; }
-  .hero-stats { gap: 1rem; }
+  .problems-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
 
   .blog-section, .areas-section, .cta-section { padding: 70px 1.25rem; }
 
@@ -1198,7 +1251,7 @@ footer {
   .areas-grid { grid-template-columns: 1fr; }
   .hero-cta { flex-direction: column; }
   .btn-primary, .btn-secondary { width: 100%; text-align: center; justify-content: center; }
-  .hero-stats { flex-wrap: wrap; gap: 0.75rem; }
+  .problems-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -1297,7 +1350,7 @@ footer {
       </h1>
 
       <p class="hero-sub">
-        Protegemos e regularizamos sua propriedade com inteligência espacial e precisão cirúrgica — do satélite ao tribunal, da análise aérea à blindagem jurídica definitiva.
+        Advocacia especializada em regularização fundiária, georreferenciamento, licenciamento ambiental e defesa de propriedades rurais.
       </p>
 
       <div class="hero-cta">
@@ -1305,25 +1358,43 @@ footer {
         <a href="https://wa.me/5562929300093" target="_blank" rel="noopener" class="btn-secondary">Consulta Especializada ↗</a>
       </div>
 
-      <div class="hero-stats">
-        <div class="stat-item">
-          <strong>REURB</strong>
-          <small>Regularização Fundiária</small>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <strong>Drones</strong>
-          <small>Perícias de Precisão</small>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <strong>OAB-GO</strong>
-          <small>55.519</small>
-        </div>
-        <div class="stat-divider"></div>
-        <div class="stat-item">
-          <strong>GEO</strong>
-          <small>Análise Territorial</small>
+      <div class="hero-problems">
+        <div class="hero-problems-title">⚡ Principais Problemas Resolvidos</div>
+        <div class="problems-grid">
+          <div class="problem-card">
+            <h4>Georreferenciamento</h4>
+            <ul>
+              <li>Sobreposição de áreas</li>
+              <li>Divergência de matrícula</li>
+              <li>Certificação INCRA</li>
+            </ul>
+          </div>
+          <div class="problem-card">
+            <h4>Regularização Fundiária</h4>
+            <ul>
+              <li>Retificação</li>
+              <li>Usucapião</li>
+              <li>Confrontações</li>
+            </ul>
+          </div>
+          <div class="problem-card">
+            <h4>Ambiental</h4>
+            <ul>
+              <li>CAR</li>
+              <li>APP</li>
+              <li>Reserva Legal</li>
+              <li>Embargos</li>
+            </ul>
+          </div>
+          <div class="problem-card">
+            <h4>Empresarial</h4>
+            <ul>
+              <li>Licenciamento Ambiental</li>
+              <li>IBAMA</li>
+              <li>SEMAD</li>
+              <li>Autos de infração</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
